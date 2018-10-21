@@ -106,6 +106,19 @@
 			this.wartosc = wartosc;
 			this.dzialanie = dzialanie;
 		}
+		function changeSign(){
+			if(k[r].wartosc < 0 && k[r-1] && k[r-1].dzialanie == "-"){
+				k[r-1].dzialanie = "+";
+				k[r].wartosc *= -1;
+				k[r].wartosc = k[r].wartosc.toString();
+				result.value = k[r].wartosc;
+			}else if(k[r].wartosc < 0 && k[r-1] && k[r-1].dzialanie == "+"){
+				k[r-1].dzialanie = "-";
+				k[r].wartosc *= -1;
+				k[r].wartosc = k[r].wartosc.toString();
+				result.value = k[r].wartosc;
+			}
+		}
 		for( let i = 0; i < document.getElementsByClassName("tg-nhcv").length; i++) {
 			let insert = document.getElementsByClassName("tg-nhcv")[i].innerText;
 			let result = document.getElementById("result");
@@ -140,11 +153,13 @@
 					if(k[r] instanceof liczba){
 						if(k[r]. wartosc != "" && k[r]. wartosc != "0" && k[r].wartosc[k[r].wartosc.length - 1] != "."){
 							k[r].dzialanie = insert;
+							changeSign();
 							result.value = "";
 							for(let j = 0; j < k.length; j++){
 
 								result.value += k[j].wartosc+k[j].dzialanie;
 							}
+							
 							r++;
 						}else return false;
 
@@ -218,11 +233,8 @@
 
 						k[r].wartosc *= -1;
 						k[r].wartosc = k[r].wartosc.toString();
-						if(k[r].wartosc < 0 && k[r-1] && k[r-1].dzialanie == "-"){
-							k[r-1].dzialanie = "+";
-							k[r].wartosc *= -1;
-							k[r].wartosc = k[r].wartosc.toString();
-						}
+						
+
 						
 						result.value = k[r].wartosc+k[r].dzialanie;
 					}else{
@@ -240,13 +252,16 @@
 								return false;
 							}
 							k[r].dzialanie = insert;
+							changeSign();
 							result.value = "";
 							let wynik = "";
+							
 							for(let j = 0; j < k.length; j++){
 								result.value += k[j].wartosc+k[j].dzialanie;
 								let dzialanie = result.value.slice(0, -1)
 								wynik =eval(dzialanie);
 							}
+							
 							result.value +=wynik;
 							k = []; 
 							r=0;
