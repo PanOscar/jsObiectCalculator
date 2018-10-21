@@ -232,7 +232,7 @@
 				}
 				if(insert == "="){
 					if(k[r] instanceof liczba){
-						if(k[r].wartosc[k[r].wartosc.length - 1] != "."){
+						if(k[r].wartosc[k[r].wartosc.length - 1] != "." && k[r].wartosc != ""){
 							if(k[r-1] &&k[r-1].dzialanie == "/" && k[r].wartosc == "0"){
 								console.log("Error: Dividing by zero");
 								result.value ="Error: Dividing by zero";
