@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<title></title>
+	<meta name="Generator" content="Cocoa HTML Writer">
+	<meta name="CocoaVersion" content="1671">
+	<style>
+	.tg-wrap{
+		background: #F1E0D0;
+		padding: 20px;
+		width:350px ;
+		border-radius: 5px;
+		box-shadow: 0px 10px 50px -5px;
+
+	}
+	.result{
+		background: #E7D7C7;
+		width: inherit;
+		height: 30px;
+		border-radius: 5px;  
+		text-align: right;
+	}
+	.tg  {
+		border-collapse:separate;
+		border-spacing:2px;
+		width: inherit;
+		user-select: none;   
+	}
+	.tg td{
+		font-family:Arial, sans-serif;
+		font-size:14px;
+		padding:10px 5px;
+		border-style:solid;
+		border-width:1px;
+		overflow:hidden;
+		word-break:normal;
+		border-color:black;
+	}
+	.tg .tg-nhcv{
+		background-color:#99C26F;
+		color:#528221;
+		cursor: pointer;
+		border-color:#6F8944;
+		text-align:center;
+		vertical-align:center;
+		border-radius: 6px;
+
+		box-shadow: 0px -2px 20px 7px #80b34c inset;
+	}
+	.tg-nhcv:active{
+		background-color: #668F3C;
+		box-shadow: 
+	}
+
+
+</style>
+</head>
+<body>
+
+	<div class="tg-wrap">
+		<input type="text" class="result" id="result" disabled>
+		<table class="tg">
+			<tr>
+				<td class="tg-nhcv" >←</td>
+				<td class="tg-nhcv">C</td>
+				<td class="tg-nhcv">%</td>
+				<td class="tg-nhcv">√</td>
+			</tr>
+			<tr>
+				<td class="tg-nhcv">7</td>
+				<td class="tg-nhcv">8</td>
+				<td class="tg-nhcv">9</td>
+				<td class="tg-nhcv">/</td>
+			</tr>
+			<tr>
+				<td class="tg-nhcv">4</td>
+				<td class="tg-nhcv">5</td>
+				<td class="tg-nhcv">6</td>
+				<td class="tg-nhcv">*</td>
+			</tr>
+			<tr>
+				<td class="tg-nhcv">1</td>
+				<td class="tg-nhcv">2</td>
+				<td class="tg-nhcv">3</td>
+				<td class="tg-nhcv">-</td>
+			</tr>
+			<tr>
+				<td class="tg-nhcv" rowspan="2">0</td>
+				<td class="tg-nhcv" rowspan="2">+/-</td>
+				<td class="tg-nhcv">,</td>
+				<td class="tg-nhcv">+</td>
+			</tr>
+			<tr>
+				<td class="tg-nhcv" colspan="2">=</td>
+			</tr>
+		</table>
+	</div>
+	<script >
+
+		let r = 0;
+		let k = [];
+
+		function liczba(zwrot, wartosc,dzialanie) {
+			this.zwrot = zwrot;
+			this.wartosc = wartosc;
+			this.dzialanie = dzialanie;
+		}
+		for( let i = 0; i < document.getElementsByClassName("tg-nhcv").length; i++) {
+			let insert = document.getElementsByClassName("tg-nhcv")[i].innerText;
+			let result = document.getElementById("result");
+
+			document.getElementsByClassName("tg-nhcv")[i].onclick = function(){
+
+				if(insert >= "0" && insert <= "9"){
+					if(k[r] instanceof liczba){
+						console.log(k[r].wartosc[0] )
+						if(k[r].wartosc[0] == "0" && k[r].wartosc[1] != "."){
+							k[r].wartosc = k[r].wartosc.slice(0, -1);
+							k[r].wartosc += insert.toString();
+							
+						}else if(k[r].wartosc[1] == "."){
+								
+								k[r].wartosc += insert.toString();
+						}else {
+							k[r].wartosc += insert.toString();
+						}
+
+					}else{
+
+						k[r] = new liczba("+", insert ,"");
+					}
+					result.value = k[r].wartosc.toString()+k[r].dzialanie;
+					console.log(k.length);
+					console.log(k);
+
+				}
+
+				if(insert >= "*" && insert <= "/" && insert !== "," && insert !== "+/-"){
+					if(k[r] instanceof liczba){
+						if(k[r]. wartosc != "" && k[r]. wartosc != "0" && k[r].wartosc[k[r].wartosc.length - 1] != "."){
+							k[r].dzialanie = insert;
+							result.value = "";
+							for(let j = 0; j < k.length; j++){
+
+								result.value += k[j].wartosc+k[j].dzialanie;
+							}
+							r++;
+						}else return false;
+
+					}else{
+						return false;
+					}
+				}
+				if(insert == ","){
+					if(k[r] instanceof liczba){
+						if(k[r].wartosc !== "" && k[r].wartosc.indexOf('.') <= -1){
+							k[r].wartosc += ".";
+						}else{
+							return false;
+						}
+					}else{
+						return false;
+					}
+					result.value = k[r].wartosc+k[r].dzialanie;
+				}
+				if(insert == "√"){
+					if(k[r] instanceof liczba){
+						if(k[r].wartosc >= 0){
+							k[r].wartosc= Math.sqrt(parseFloat(k[r].wartosc)).toString();
+						}else {
+							console.log("Error: Attempt to calculate the square root of the oposite number!");
+								result.value ="Error: Attempt to calculate the square root of the oposite number!";
+								k = []; 
+								r=0;
+								return false;
+						}
+						
+
+					}else{
+						return false;
+					}
+					result.value = k[r].wartosc+k[r].dzialanie;
+				}
+				if(insert == "%"){
+					if(k[r] instanceof liczba){
+						k[r].wartosc = eval(parseFloat(k[r].wartosc)/100).toString();
+					}else{
+						return false;
+					}
+					result.value = k[r].wartosc+k[r].dzialanie;
+				}
+				if(insert == "←"){
+					if(k[r] instanceof liczba){
+
+						if(k[r].wynik != ""){
+							k[r].wartosc = k[r].wartosc.slice(0, -1);
+						}
+						result.value = k[r].wartosc+k[r].dzialanie;
+					}else{
+						if(r > 0){
+							r--;
+							if(k[r].dzialanie != ""){
+								
+								k[r].dzialanie = k[r].dzialanie.slice(0, -1);			
+							}
+							result.value = k[r].wartosc+k[r].dzialanie;
+						}
+					}
+				}
+				if(insert == "C"){
+					k = []; 
+					r=0;
+					result.value = "Cleared!";
+				}
+				if(insert == "+/-"){
+					if(k[r] instanceof liczba){
+
+						k[r].wartosc *= -1;
+						k[r].wartosc = k[r].wartosc.toString();
+						if(k[r].wartosc < 0 && k[r-1] && k[r-1].dzialanie == "-"){
+							k[r-1].dzialanie = "+";
+							k[r].wartosc *= -1;
+							k[r].wartosc = k[r].wartosc.toString();
+						}
+						
+						result.value = k[r].wartosc+k[r].dzialanie;
+					}else{
+						return false;
+					}
+				}
+				if(insert == "="){
+					if(k[r] instanceof liczba){
+						if(k[r].wartosc[k[r].wartosc.length - 1] != "."){
+							if(k[r-1] &&k[r-1].dzialanie == "/" && k[r].wartosc == "0"){
+								console.log("Error: Dividing by zero");
+								result.value ="Error: Dividing by zero";
+								k = []; 
+								r=0;
+								return false;
+							}
+							k[r].dzialanie = insert;
+							result.value = "";
+							let wynik = "";
+							for(let j = 0; j < k.length; j++){
+								result.value += k[j].wartosc+k[j].dzialanie;
+								let dzialanie = result.value.slice(0, -1)
+								wynik =eval(dzialanie);
+							}
+							result.value +=wynik;
+							k = []; 
+							r=0;
+							k[r] = new liczba("+", wynik.toString(), "");
+							console.log(k.length);
+							console.log(k);
+						}
+					}else{
+						return false;
+					}
+				}
+			}
+		}
+			//console.log(insert);
+			//console.log(document.getElementsByClassName("tg-nhcv"));
+	</script>
+</body>
+</html>
+
+
