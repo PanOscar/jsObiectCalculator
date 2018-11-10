@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="Content-Style-Type" content="text/css">
-	<title></title>
-	<meta name="Generator" content="Cocoa HTML Writer">
-	<meta name="CocoaVersion" content="1671">
+	<meta charset="utf-8">
+	<meta name="description" content="Strona przeznaczona na lekcje WIA">
+	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
 	.tg-wrap{
 		background: #F1E0D0;
@@ -120,7 +119,7 @@
 			}
 		}
 		for( let i = 0; i < document.getElementsByClassName("tg-nhcv").length; i++) {
-			let insert = document.getElementsByClassName("tg-nhcv")[i].innerText;
+			let insert = document.getElementsByClassName("tg-nhcv")[i].innerHTML;
 			let result = document.getElementById("result");
 
 			document.getElementsByClassName("tg-nhcv")[i].onclick = function(){
@@ -144,8 +143,7 @@
 						k[r] = new liczba("+", insert ,"");
 					}
 					result.value = k[r].wartosc.toString()+k[r].dzialanie;
-					console.log(k.length);
-					console.log(k);
+					console.log(result.value)
 
 				}
 
@@ -259,7 +257,7 @@
 							for(let j = 0; j < k.length; j++){
 								result.value += k[j].wartosc+k[j].dzialanie;
 								let dzialanie = result.value.slice(0, -1)
-								wynik =eval(dzialanie);
+								wynik = eval(dzialanie);
 							}
 							
 							result.value +=wynik;
